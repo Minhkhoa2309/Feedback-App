@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const axios = require('axios');
+const { BASE_URL } = require('../../constanst');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -29,7 +30,7 @@ module.exports = {
         const commentId = interaction.options.getString('commentid');
 
         try {
-            const response = await axios.put(`http://localhost:3000/api/comment/status/${status}`, { commentId });
+            const response = await axios.put(`${BASE_URL}/api/comment/status/${status}`, { commentId });
 
             // Handle the response as needed (e.g., logging, replying to the user)
             console.log(response.data);

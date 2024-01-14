@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const axios = require('axios');
+const { BASE_URL } = require('../../constanst');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -20,7 +21,7 @@ module.exports = {
 
         // Make an HTTP POST request to your Express API endpoint
         try {
-            await axios.post('http://localhost:3000/api/comment', {
+            await axios.post(`${BASE_URL}/api/comment`, {
                 content: feedbackMessage,
                 userId,
                 username,
