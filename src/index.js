@@ -1,36 +1,46 @@
-const { Client, IntentsBitField, GatewayIntentBits } = require('discord.js');
+const { Client, IntentsBitField } = require('discord.js');
 require('dotenv').config();
+const { CommandKit } = require('commandkit');
+const mongoose = require('mongoose')
+const path = require('path');
+const express = require('express');
+const bodyParser = require('body-parser');
+const commentRoutes = require('./routes/comment');
 
+const app = express();
+
+// Use body-parser middleware for JSON parsing
+app.use(bodyParser.json());
+
+// Discord Bot setup
 const client = new Client({
     intents: [
         IntentsBitField.Flags.Guilds,
         IntentsBitField.Flags.GuildMessages,
         IntentsBitField.Flags.GuildMembers,
-        IntentsBitField.Flags.MessageContent,
-        GatewayIntentBits.Guilds,
-        GatewayIntentBits.GuildMessages,
+        IntentsBitField.Flags.MessageContent
     ]
 });
 
-client.on('ready', (c) => {
-    console.log(`${c.user.tag} is online`)
-})
+(async () => {
+    try {
+        await mongoose.connect(process.env.MONGODB_URI);
+        console.log('Connect to DB.')
+        new CommandKit({
+            client,
+            eventsPath: path.join(__dirname, 'events'),
+            commandsPath: path.join(__dirname, 'commands'),
+        })
+        // Use the commentRoutes for /api routes
+        app.use('/', commentRoutes);
 
-client.on('messageCreate', (message) => {
-    console.log(message.content);
-    if (message.author.bot) {
-        return;
+        // Start Express server
+        const PORT = process.env.PORT || 3000;
+        app.listen(PORT, () => {
+            console.log(`Server is running on port ${PORT}`);
+        });
+        client.login(process.env.BOT_TOKEN)
+    } catch (error) {
+        console.log(error)
     }
-    if (message.content === 'hello') {
-        message.reply('Hieu ga')
-    }
-})
-
-client.on('interactionCreate', async interaction => {
-    if (!interaction.isChatInputCommand()) return;
-
-    if (interaction.commandName === 'feedback') {
-        await interaction.reply('Thank you for your feedback!');
-    }
-});
-client.login(process.env.BOT_TOKEN)
+})()
