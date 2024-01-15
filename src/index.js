@@ -1,7 +1,7 @@
 const { Client, IntentsBitField } = require('discord.js');
-require('dotenv').config();
 const { CommandKit } = require('commandkit');
 const mongoose = require('mongoose')
+require('dotenv').config();
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -30,12 +30,13 @@ const client = new Client({
             client,
             eventsPath: path.join(__dirname, 'events'),
             commandsPath: path.join(__dirname, 'commands'),
-        })
+            bulkRegister: true,
+        }).reloadCommands()
         // Use the commentRoutes for /api routes
         app.use('/', commentRoutes);
 
         // Start Express server
-        const PORT = process.env.PORT || 3000;
+        const PORT = process.env.PORT || 3001;
         app.listen(PORT, () => {
             console.log(`Server is running on port ${PORT}`);
         });

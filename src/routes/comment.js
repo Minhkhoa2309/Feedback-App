@@ -2,12 +2,14 @@
 const express = require('express');
 const router = express.Router();
 const Comment = require('../models/comment');
+const { Redis } = require('ioredis');
+const redis = require('../lib/redis');
 
 // POST /api/comment
 router.post('/api/comment', async (req, res) => {
   try {
     const { content, userId, username, channelId } = req.body;
-    
+
     const newComment = new Comment({
       content,
       userId,
@@ -41,18 +43,28 @@ router.put('/api/comment/status/:status', async (req, res) => {
   const { status } = req.params;
 
   try {
-    const commentId = req.body.commentId; // Assuming you send commentId in the request body
+    const commentId = req.body.commentId;
 
-    const comment = await Comment.findById(commentId);
+    const result = await redis.get(commentId);
+
+    let comment;
+
+    if (result) {
+      comment = JSON.parse(result);
+    } else {
+      comment = await Comment.findById(commentId);
+    }
 
     if (!comment) {
       return res.status(404).json({ error: 'Comment not found' });
     }
 
-    comment.status = status;
-    comment.statusEventTime = new Date();
+    comment = await Comment.findOneAndUpdate(
+      { id: commentId }, 
+      { status: status, statusEventTime: new Date() }, 
+      { new: true })
 
-    await comment.save();
+    await redis.set(commentId, JSON.stringify(comment), 'EX', 60);
 
     res.status(200).json(comment);
   } catch (error) {

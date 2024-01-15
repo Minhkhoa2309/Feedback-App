@@ -1,10 +1,10 @@
 const { SlashCommandBuilder } = require('discord.js');
 const axios = require('axios');
-const { BASE_URL } = require('../../constanst');
+const { BASE_URL } = require('../../../config.json');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('changecommentstatus')
+        .setName('change-comment-status')
         .setDescription('Change the status of a feedback comment')
         .addStringOption(option =>
             option.setName('status')
@@ -30,10 +30,7 @@ module.exports = {
         const commentId = interaction.options.getString('commentid');
 
         try {
-            const response = await axios.put(`${BASE_URL}/api/comment/status/${status}`, { commentId });
-
-            // Handle the response as needed (e.g., logging, replying to the user)
-            console.log(response.data);
+            await axios.put(`${BASE_URL}/api/comment/status/${status}`, { commentId });
 
             interaction.reply(`Feedback comment status changed to ${status}.`);
         } catch (error) {

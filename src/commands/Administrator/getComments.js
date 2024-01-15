@@ -1,10 +1,10 @@
 const { SlashCommandBuilder } = require('discord.js');
 const axios = require('axios');
-const { BASE_URL } = require('../../constanst');
+const { BASE_URL } = require('../../../config.json');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('getcomments')
+        .setName('get-comments')
         .setDescription('Get feedback comments'),
 
     run: async ({ interaction }) => {
@@ -20,7 +20,7 @@ module.exports = {
             const comments = response.data;
 
             if (comments.length === 0) {
-                return interaction.reply('No feedback comments found.');
+                return interaction.reply({ content: 'No feedback comments found.', ephemeral: true });
             }
 
             // Format the comments for display
