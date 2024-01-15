@@ -52,15 +52,14 @@ router.put('/api/comment/status/:status', async (req, res) => {
       comment = JSON.parse(result);
     } else {
       comment = await Comment.findById(commentId);
-    }
-
-    if (!comment) {
-      return res.status(404).json({ error: 'Comment not found' });
+      if (!comment) {
+        return res.status(404).json({ error: 'Comment not found' });
+      }
     }
 
     comment = await Comment.findOneAndUpdate(
-      { id: commentId }, 
-      { status: status, statusEventTime: new Date() }, 
+      { _id: commentId },
+      { status: status, statusEventTime: new Date() },
       { new: true })
 
     await redis.set(commentId, JSON.stringify(comment), 'EX', 60);
