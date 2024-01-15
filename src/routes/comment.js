@@ -67,7 +67,7 @@ router.put('/api/comment/status/:status', async (req, res) => {
     res.status(200).json(comment);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: error });
   }
 });
 
