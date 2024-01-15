@@ -35,7 +35,7 @@ module.exports = {
             interaction.reply(`Feedback comment status changed to ${status}.`);
         } catch (error) {
             console.error(error);
-            interaction.reply('Sorry, there was an error changing the feedback comment status. Please try again later.');
+            interaction.reply(`Sorry, there was an error changing the feedback comment status. Please try again later. \n ${error}`);
         }
     }
 };

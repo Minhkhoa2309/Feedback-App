@@ -31,7 +31,7 @@ module.exports = {
             interaction.reply(`Thanks for reaching out! We’ll be passing this along to the team directly! Good luck playing the game!`);
         } catch (error) {
             console.error(error);
-            interaction.reply('Sorry, there was an error processing your feedback. Please try again later.');
+            await interaction.reply(`Sorry, there was an error changing the feedback comment status. Please try again later. \n ${error}`);
         }
     }
 };

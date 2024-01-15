@@ -33,7 +33,7 @@ module.exports = {
 
         } catch (error) {
             console.error(error);
-            await interaction.reply('Sorry, there was an error retrieving feedback comments. Please try again later.');
+            await interaction.reply(`Sorry, there was an error changing the feedback comment status. Please try again later. \n ${error}`);
         }
     }
 };
