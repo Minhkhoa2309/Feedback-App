@@ -11,7 +11,8 @@ module.exports = {
                 .setDescription('New status for the feedback comment')
                 .setRequired(true)
                 .addChoices(
-                    { name: 'Resolve', value: 'Resolved' }
+                    { name: 'Resolve', value: 'Resolved' },
+                    { name: 'Pending', value: 'Pending' }
                 )
         )
         .addStringOption(option =>
