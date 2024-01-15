@@ -29,11 +29,11 @@ module.exports = {
                 return `Comment: ${comment.content}, UserID: ${comment.userId}, Username: ${comment.username}, ChannelID: ${comment.channelId}, Status: ${comment.status}, Status Event: ${formattedTime}`;
             }).join('\n');
 
-            interaction.reply({ content: `Feedback comments:\n${formattedComments}`, ephemeral: true });
+            await interaction.reply({ content: `Feedback comments:\n${formattedComments}`, ephemeral: true });
 
         } catch (error) {
             console.error(error);
-            interaction.reply('Sorry, there was an error retrieving feedback comments. Please try again later.');
+            await interaction.reply('Sorry, there was an error retrieving feedback comments. Please try again later.');
         }
     }
 };
