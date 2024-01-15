@@ -2,7 +2,6 @@
 const express = require('express');
 const router = express.Router();
 const Comment = require('../models/comment');
-const { Redis } = require('ioredis');
 const redis = require('../lib/redis');
 
 // POST /api/comment
