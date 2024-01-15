@@ -26,14 +26,14 @@ module.exports = {
             // Format the comments for display
             const formattedComments = comments.map(comment => {
                 const formattedTime = comment.statusEventTime ? new Date(comment.statusEventTime).toLocaleString() : 'N/A';
-                return `Comment ID: ${comment._id},Comment: ${comment.content}, UserID: ${comment.userId}, Username: ${comment.username}, ChannelID: ${comment.channelId}, Status: ${comment.status}, Status Event: ${formattedTime}`;
+                return `Comment Id: ${comment._id}, Comment: ${comment.content}, UserID: ${comment.userId}, Username: ${comment.username}, ChannelID: ${comment.channelId}, Status: ${comment.status}, Status Event: ${formattedTime}`;
             }).join('\n');
 
             await interaction.reply({ content: `Feedback comments:\n${formattedComments}`, ephemeral: true });
 
         } catch (error) {
             console.error(error);
-            await interaction.reply(`Sorry, there was an error changing the feedback comment status. Please try again later. \n ${error}`);
+            await interaction.reply('Sorry, there was an error retrieving feedback comments. Please try again later.');
         }
     }
 };

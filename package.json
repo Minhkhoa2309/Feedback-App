@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "commandkit dev",
     "build": "commandkit build",
-    "start": "commandkit start"
+    "start": "commandkit start",
+    "test": "npx test"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +20,11 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "ioredis": "^5.3.2",
+    "mongodb-memory-server": "^9.1.5",
     "mongoose": "^8.0.4"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^6.3.4"
   }
 }

@@ -59,7 +59,7 @@ router.put('/api/comment/status/:status', async (req, res) => {
 
     comment = await Comment.findOneAndUpdate(
       { _id: commentId },
-      { status: status, statusEventTime: new Date() },
+      {  status, statusEventTime: new Date() },
       { new: true })
 
     await redis.set(commentId, JSON.stringify(comment), 'EX', 60);
@@ -67,7 +67,7 @@ router.put('/api/comment/status/:status', async (req, res) => {
     res.status(200).json(comment);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: error });
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
