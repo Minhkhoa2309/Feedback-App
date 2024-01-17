@@ -1,7 +1,6 @@
 const { Redis } = require('ioredis');
 require('dotenv').config();
-const { REDIS_URL } = require('../../config.json')
 
-const redis = new Redis(REDIS_URL, { username: 'feedback_admin', password: process.env.REDIS_PASSWORD });
+const redis = new Redis( process.env.REDIS_URL);
 
 module.exports = redis;
